@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.box{
+			width: 500px;
+			height: 400px;
+			border: 1px solid #000;
+			font-size: 16px;
+			text-align: center;
+		}
+		.box>.son{
+			width: 400px;
+			height: auto;
+			background: #c0c0c0;
+			margin: 20px auto;
+		}
+		.box>span{
+			display: block;
+			width: 400px;
+			height: auto;
+			background: #c0c0c0;
+			margin: 20px auto;
+		}
+		.box>p{
+			width: 400px;
+			height: auto;
+			background: #c0c0c0;
+			margin: 20px auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		hello world
+		<div class="son">
+			这是一个div
+		</div>
+		<span class='box'>这是一个span</span>
+		<p>这是一个p</p>
+		<div class='son1'>me</div>
+		<div>you</div>
+		<!-- who -->
+	</div>
+	<script>
+		window.onload=function(){
+			
+			let divs=document.querySelectorAll('div');
+			let div=document.querySelector('div');
+			let son=document.querySelector('.son');
+			let child=div.childNodes;
+			let children1=div.children;
+			console.log(divs);
+			console.log(div);
+			console.log(child);
+			console.log(children1);
+			console.log(div.parentNode);
+
+            //筛选出部分节点
+			let child1=children(div);
+			function children(parent){
+				// let newarr=[];
+				let childrens=parent.childNodes;
+				let arr=Array.from(childrens);
+				let newarr=arr.filter(element=>element.nodeType==3);
+				return newarr;
+			}
+			console.log(child1);
+
+            //第一个节点
+			let firstchild1=firstchild(div);
+			function firstchild(parent){
+				return children(parent)[0];
+			}
+			console.log(firstchild1);
+
+            //最后一个节点
+			let lastchild1=lastchild(div);
+			function lastchild(parent){
+				let cc=children(parent);
+				return cc.pop();
+			}
+			console.log(lastchild1);
+            
+            //获取后面紧接着的第一个相同类别
+            let next1 = next(son,'div');
+            function next(element,tagname){   //tagname是元素节点
+           	    let parent=element.parentNode;
+           	    let chch = parent.children;
+           	    let index=0; 
+           	    for (let i=0;i<chch.length;i++){
+           	   	    if (chch[i]==element){
+                        index=i;
+                        break; 
+           	   	    }
+           	    }
+           	    // return null;
+           	    let nextAll=Array.from(chch).slice(index+1);
+           	    for (let i=0;i<nextAll.length;i++){
+           	    	if (nextAll[i].nodeName==tagname.toUpperCase()){
+           	    		return nextAll[i];
+           	    	}
+           	    }
+           	    return null;
+            }
+            console.log(next1);
+		}
+	</script>
+</body>
+</html>

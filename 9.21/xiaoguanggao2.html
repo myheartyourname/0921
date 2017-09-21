@@ -1,0 +1,104 @@
+<!DOCTYPE html>  //DOCTYPE是文档版本声明
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	    *{
+	    	margin: 0;
+	    	padding: 0;
+	    }
+		.box{
+			width: 200px;
+			height: 200px;
+			background: #ff6700;
+			border-radius: 50%;
+			position: absolute;
+			top: 200px;
+			left: 300px;
+		}
+		.box1{
+			width: 100px;
+			height: 100px;
+			background: #89cc00;
+			/* border-radius: 50%; */
+			position: absolute;
+			top: 100px;
+			left: 0;
+		}
+	</style>
+	<script src='ie2.js'></script>
+</head>
+<body>
+	<div class="box"></div>
+	<div class="box1"></div>
+	<script>
+		window.onload=function(){
+			let box=$('.box')[0];
+			let box1=$('.box1')[0];
+			function float(obj){
+				this.obj=obj;
+				this.maxX=window.innerWidth-this.obj.offsetWidth;
+				this.maxY=window.innerHeight-this.obj.offsetHeight;
+				this.speed=20;
+				this.speed1=20;
+			}
+			float.prototype.stop=function(){
+				clearInterval(this.t);
+			}
+			float.prototype.resize=function(){
+				this.maxX=window.innerWidth-this.obj.offsetWidth;
+				this.maxY=window.innerHeight-this.obj.offsetHeight;
+			}
+			float.prototype.move=function(){
+				// let that=this;
+				this.t=setInterval(()=>{
+                    let tops=this.obj.offsetTop+this.speed1;
+                    let lefts=this.obj.offsetLeft+this.speed;
+                    if(lefts>=this.maxX){
+                    	lefts=this.maxX;
+                    	this.speed*=-1;
+                    }
+                    if(lefts<=0){
+                    	lefts=0;
+                    	this.speed*=-1;
+                    }
+                    if(tops>=this.maxY){
+                    	tops=this.maxY;
+                    	this.speed1*=-1;
+                    }
+                    if(tops<=0){
+                    	tops=0;
+                    	this.speed1*=-1;
+                    }
+                    this.obj.style.left=lefts+'px';
+                    this.obj.style.top=tops+'px';
+				},100)
+			}
+			
+			let div=new float(box);
+			let div1=new float(box1);
+			div.move();
+			div1.move();
+			box.onmouseover=function(){
+                div.stop();
+			}
+			box.onmouseout=function(){
+                div.move();
+			}
+			box1.onmouseover=function(){
+                div1.stop();
+			}
+			box1.onmouseout=function(){
+                div1.move();
+			}
+			window.onresize=function(){
+				div.resize();
+			}
+			window.onresize=function(){
+				div1.resize();
+			}
+		}
+	</script>
+</body>
+</html>
